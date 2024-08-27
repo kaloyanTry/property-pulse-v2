@@ -6,7 +6,7 @@ Real-world web application about searching properties.
 
 The app is the main project of the Next.js From Scratch 2024 Udemy Course, created by Brath Traversy. 
 
-- [Next.js from Scratch 2024](https://www.udemy.com/course/nextjs-from-scratch/) - Build a real-world project using Next.js 14 and MongoDB. Learn more about Next.js course.
+- [Next.js from Scratch 2024](https://www.udemy.com/course/nextjs-from-scratch/) - Build a real-world project using Next.js 14 and MongoDB. Learn more about this Next.js course.
 
 ## Deploy on Vercel
 
