@@ -1,20 +1,15 @@
 'use server';
-
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
-import cloudinary from '@/config/cloudinary';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import cloudinary from '@/config/cloudinary';
 
 async function addProperty(formData) {
   await connectDB();
 
   const sessionUser = await getSessionUser();
-
-  // NOTE: throwing an Error from our server actions will be caught by our
-  // error.jsx ErrorBoundry component and show the user an Error page with
-  // message of the thrown error.
 
   if (!sessionUser || !sessionUser.userId) {
     throw new Error('User ID is required');
@@ -22,13 +17,14 @@ async function addProperty(formData) {
 
   const { userId } = sessionUser;
 
-  // Access all values from amenities and images
+  // Access all values for amenities and images
   const amenities = formData.getAll('amenities');
-
+  // console.log(amenities);
   const images = formData.getAll('images').filter((image) => image.name !== '');
 
-  // Create propertyData object for database
+  // Create the propertyData object with embedded seller_info
   const propertyData = {
+    owner: userId,
     type: formData.get('type'),
     name: formData.get('name'),
     description: formData.get('description'),
@@ -45,7 +41,7 @@ async function addProperty(formData) {
     rates: {
       weekly: formData.get('rates.weekly'),
       monthly: formData.get('rates.monthly'),
-      nightly: formData.get('rates.nightly'),
+      nightly: formData.get('rates.nightly.'),
     },
     seller_info: {
       name: formData.get('seller_info.name'),
@@ -54,11 +50,6 @@ async function addProperty(formData) {
     },
     owner: userId,
   };
-
-  // Upload image(s) to Cloudinary
-  // NOTE: this will be an array of strings, not a array of Promises
-  // So imageUploadPromises has been changed to imageUrls to more
-  // declaratively represent it's type.
 
   const imageUrls = [];
 
@@ -72,7 +63,7 @@ async function addProperty(formData) {
 
     // Make request to upload to Cloudinary
     const result = await cloudinary.uploader.upload(
-      `data:${imageFile.type};base64,${imageBase64}`,
+      `data:image/png;base64,${imageBase64}`,
       {
         folder: 'propertypulse',
       }
@@ -81,18 +72,11 @@ async function addProperty(formData) {
     imageUrls.push(result.secure_url);
   }
 
-  // NOTE: here there is no need to await the resolution of
-  // imageUploadPromises as it's not a array of Promises it's an array of
-  // strings, additionally we should not await on every iteration of our loop.
-
   propertyData.images = imageUrls;
 
   const newProperty = new Property(propertyData);
   await newProperty.save();
 
-  // Revalidate the cache
-  // NOTE: since properties are pretty much on every page, we can simply
-  // revalidate everything that uses our top level layout
   revalidatePath('/', 'layout');
 
   redirect(`/properties/${newProperty._id}`);

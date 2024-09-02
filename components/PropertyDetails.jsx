@@ -14,9 +14,9 @@ const PropertyDetails = ({ property }) => {
         <div className='text-gray-500 mb-4'>{property.type}</div>
         <h1 className='text-3xl font-bold mb-4'>{property.name}</h1>
         <div className='text-gray-500 mb-4 flex align-middle justify-center md:justify-start'>
-          <FaMapMarker className='text-orange-700 mr-2' />
+          <FaMapMarker className='text-orange-700 mt-1 mr-1' />
           <p className='text-orange-700'>
-            {property.location.street}, {property.location.city}{' '}
+            {property.location.street} {property.location.city}{' '}
             {property.location.zipcode}
           </p>
         </div>

@@ -36,7 +36,7 @@ const PropertySchema = new Schema(
       type: Number,
       required: true,
     },
-    amenitites: [
+    amenities: [
       {
         type: String,
       },
@@ -46,7 +46,7 @@ const PropertySchema = new Schema(
       weekly: Number,
       monthly: Number,
     },
-    seler_info: {
+    seller_info: {
       name: String,
       email: String,
       phone: String,
