@@ -2,7 +2,6 @@
 import connectDB from '@/config/database';
 import Message from '@/models/Message';
 import { getSessionUser } from '@/utils/getSessionUser';
-import { revalidatePath } from 'next/cache';
 
 async function addMessage(previousState, formData) {
   await connectDB();
@@ -28,7 +27,7 @@ async function addMessage(previousState, formData) {
     name: formData.get('name'),
     email: formData.get('email'),
     phone: formData.get('phone'),
-    body: formData.get('message'),
+    body: formData.get('body'),
   });
 
   await newMessage.save();
