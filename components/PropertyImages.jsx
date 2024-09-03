@@ -27,9 +27,10 @@ const PropertyImages = ({ images }) => {
                 <Image
                   src={image}
                   alt=''
-                  className='object-cover h-[400px] w-full rounded-xl'
-                  width={1800}
-                  height={400}
+                  className='object-cover h-[400px] w-full rounded-xl cursor-pointer'
+                  width={0}
+                  height={0}
+                  sizes='100vw'
                   priority={true}
                 />
               </div>
