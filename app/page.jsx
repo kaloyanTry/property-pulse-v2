@@ -1,7 +1,7 @@
 import Hero from '@/components/Hero';
-import HomeProperties from '@/components/HomeProperties';
 import InfoBoxes from '@/components/InfoBoxes';
-// import connectDB from '@/config/database';
+import HomeProperties from '@/components/HomeProperties';
+import FeaturedProperties from '@/components/FeaturedProperties';
 
 const HomePage = () => {
   // connectDB();
@@ -9,6 +9,7 @@ const HomePage = () => {
     <>
       <Hero />
       <InfoBoxes />
+      <FeaturedProperties />
       <HomeProperties />
     </>
   );
